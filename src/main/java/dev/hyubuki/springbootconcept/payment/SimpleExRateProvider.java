@@ -1,9 +1,9 @@
-package dev.hyubuki.springbootconcept.payment.service;
+package dev.hyubuki.springbootconcept.payment;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 
-public class SimpleExRatePaymentService extends PaymentService{
+public class SimpleExRateProvider implements ExRateProvider {
 
   @Override
   public BigDecimal getExRate(String currency) throws IOException {

@@ -1,4 +1,4 @@
-package dev.hyubuki.springbootconcept.payment.service;
+package dev.hyubuki.springbootconcept.payment;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.hyubuki.springbootconcept.payment.dto.ExRateData;
@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.stream.Collectors;
 
-public class WebApiExRatePaymentService extends PaymentService{
+public class WebApiExRatePaymentProvider implements ExRateProvider {
 
   @Override
   public BigDecimal getExRate(String currency) throws IOException {
