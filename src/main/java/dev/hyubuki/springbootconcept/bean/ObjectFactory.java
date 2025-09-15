@@ -1,7 +1,8 @@
 package dev.hyubuki.springbootconcept.bean;
 
+import dev.hyubuki.springbootconcept.payment.CachedExRateProvider;
 import dev.hyubuki.springbootconcept.payment.ExRateProvider;
-import dev.hyubuki.springbootconcept.payment.SimpleExRateProvider;
+import dev.hyubuki.springbootconcept.payment.WebApiExRatePaymentProvider;
 import dev.hyubuki.springbootconcept.payment.service.PaymentService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,12 +13,17 @@ public class ObjectFactory {
 
   @Bean
   public PaymentService paymentService() {
-    return new PaymentService(exRateProvider());
+    return new PaymentService(cachedExRateProvider());
+  }
+
+  @Bean
+  public ExRateProvider cachedExRateProvider() {
+    return new CachedExRateProvider(exRateProvider());
   }
 
   @Bean
   public ExRateProvider exRateProvider() {
-//    return new WebApiExRatePaymentProvider();
-    return new SimpleExRateProvider();
+    return new WebApiExRatePaymentProvider();
+//    return new SimpleExRateProvider();
   }
 }
