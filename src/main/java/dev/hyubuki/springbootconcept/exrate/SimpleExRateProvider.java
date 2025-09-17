@@ -1,5 +1,6 @@
-package dev.hyubuki.springbootconcept.payment;
+package dev.hyubuki.springbootconcept.exrate;
 
+import dev.hyubuki.springbootconcept.payment.ExRateProvider;
 import java.io.IOException;
 import java.math.BigDecimal;
 

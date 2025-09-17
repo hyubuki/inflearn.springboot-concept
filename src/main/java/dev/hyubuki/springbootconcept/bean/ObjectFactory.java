@@ -1,8 +1,8 @@
 package dev.hyubuki.springbootconcept.bean;
 
-import dev.hyubuki.springbootconcept.payment.CachedExRateProvider;
+import dev.hyubuki.springbootconcept.exrate.CachedExRateProvider;
 import dev.hyubuki.springbootconcept.payment.ExRateProvider;
-import dev.hyubuki.springbootconcept.payment.WebApiExRatePaymentProvider;
+import dev.hyubuki.springbootconcept.exrate.WebApiExRatePaymentProvider;
 import dev.hyubuki.springbootconcept.payment.service.PaymentService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

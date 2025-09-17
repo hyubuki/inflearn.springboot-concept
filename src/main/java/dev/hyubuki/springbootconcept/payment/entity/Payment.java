@@ -11,13 +11,13 @@ import lombok.ToString;
 @ToString
 public class Payment {
 
-  private String paymentId;
-  private Long orderId;
-  private Currency currency;
-  private BigDecimal  foreignCurrencyAmount;
-  private BigDecimal exRate;
-  private BigDecimal convertedAmount;
-  private LocalDateTime validUntil;
+  private final String paymentId;
+  private final Long orderId;
+  private final Currency currency;
+  private final BigDecimal  foreignCurrencyAmount;
+  private final BigDecimal exRate;
+  private final BigDecimal convertedAmount;
+  private final LocalDateTime validUntil;
 
   public Payment(Long orderId, String currency, BigDecimal foreignCurrencyAmount, BigDecimal exRate, BigDecimal convertedAmount, LocalDateTime validUntil) {
     this.paymentId = SnowFlake.generate();

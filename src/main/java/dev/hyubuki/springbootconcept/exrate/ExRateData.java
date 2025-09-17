@@ -1,4 +1,4 @@
-package dev.hyubuki.springbootconcept.payment.dto;
+package dev.hyubuki.springbootconcept.exrate;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;

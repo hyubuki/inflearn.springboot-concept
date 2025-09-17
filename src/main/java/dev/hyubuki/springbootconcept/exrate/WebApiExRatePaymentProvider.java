@@ -1,7 +1,7 @@
-package dev.hyubuki.springbootconcept.payment;
+package dev.hyubuki.springbootconcept.exrate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.hyubuki.springbootconcept.payment.dto.ExRateData;
+import dev.hyubuki.springbootconcept.payment.ExRateProvider;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
