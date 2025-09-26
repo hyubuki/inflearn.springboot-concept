@@ -3,28 +3,55 @@ package dev.hyubuki.springbootconcept.payment.service;
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import dev.hyubuki.springbootconcept.bean.TestPaymentConfiguration;
 import dev.hyubuki.springbootconcept.exrate.ExRateProviderStub;
 import dev.hyubuki.springbootconcept.payment.entity.Payment;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+// SpringExtensionを利用して、SpringのDIコンテナを利用できるようにする。
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {TestPaymentConfiguration.class})
 public class PaymentServiceTest {
 
+  @Autowired
+  private PaymentService paymentService;
+
+  @Autowired
+  private ExRateProviderStub exRateProviderStub;
+
+  @Autowired
+  private Clock clock;
+
   @Test
-  void prepare() throws IOException {
-    getPayment(valueOf(500), valueOf(5_000));
-    getPayment(valueOf(110), valueOf(1_100));
+  void convertedAmount() throws IOException {
+    testAmount(valueOf(500), valueOf(5_000), this.clock);
 
-
-//    // 支払い有効期限を確認
-//    assertThat(payment.getValidUntil()).isAfter(LocalDateTime.now());
-//    assertThat(payment.getValidUntil()).isBefore(LocalDateTime.now().plusMinutes(30));
+    exRateProviderStub.setExRate(valueOf(110));
+    testAmount(valueOf(110), valueOf(1_100), this.clock);
   }
 
-  private static void getPayment(BigDecimal exRate, BigDecimal convertedAmount) throws IOException {
+  @Test
+  void validUntil() throws IOException {
+   Payment payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
+
+   LocalDateTime now = LocalDateTime.now(clock);
+    assertThat(payment.getValidUntil()).isEqualTo(now.plusMinutes(30));
+  }
+
+  private void testAmount(BigDecimal exRate, BigDecimal convertedAmount, Clock clock) throws IOException {
     // 外部のAPIを利用して制御できない。したがって、StubーClassを利用する。
-    PaymentService paymentService = new PaymentService(new ExRateProviderStub(exRate));
+    // PaymentService paymentService = beanFactory.getBean(PaymentService.class);
 
     Payment payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
 
