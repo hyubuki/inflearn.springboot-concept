@@ -3,6 +3,7 @@ package dev.hyubuki.springbootconcept.exrate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.hyubuki.api.ApiExecutor;
+import dev.hyubuki.api.ExRateExtractor;
 import dev.hyubuki.api.SimpleApiExecutor;
 import dev.hyubuki.springbootconcept.payment.ExRateProvider;
 import java.io.BufferedReader;
@@ -22,11 +23,15 @@ public class WebApiExRatePaymentProvider implements ExRateProvider {
 
       String url = "https://open.er-api.com/v6/latest/" + currency;
       // Strategy パターン　method injection - callback
-      return runApiFor(url, new SimpleApiExecutor());
+      return runApiFor(url, new SimpleApiExecutor(), (response) -> {
+        ObjectMapper mapper = new ObjectMapper();
+        ExRateData exRateData = mapper.readValue(response, ExRateData.class);
+        return exRateData.rates().get("KRW");
+      });
     }
   }
   // テンプレート
-  private static BigDecimal runApiFor(String url, ApiExecutor apiExecutor) {
+  private static BigDecimal runApiFor(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
     URI uri;
     try {
       uri = new URI(url);
@@ -36,15 +41,9 @@ public class WebApiExRatePaymentProvider implements ExRateProvider {
 
     String response = apiExecutor.execute(uri);
     try {
-      return extractExRate(response);
+      return exRateExtractor.extract(response);
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  private static BigDecimal extractExRate(String response) throws JsonProcessingException {
-    ObjectMapper mapper = new ObjectMapper();
-    ExRateData exRateData = mapper.readValue(response, ExRateData.class);
-    return exRateData.rates().get("KRW");
   }
 }
