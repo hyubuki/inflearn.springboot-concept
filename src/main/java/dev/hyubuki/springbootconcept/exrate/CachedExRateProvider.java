@@ -1,7 +1,6 @@
 package dev.hyubuki.springbootconcept.exrate;
 
 import dev.hyubuki.springbootconcept.payment.ExRateProvider;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -20,7 +19,7 @@ public class CachedExRateProvider implements ExRateProvider {
   }
 
   @Override
-  public BigDecimal getExRate(String currency) throws IOException {
+  public BigDecimal getExRate(String currency) {
     if(cachedExRate == null || cachedExpiryTime.isBefore(LocalDateTime.now())) {
       cachedExRate = target.getExRate(currency);
       cachedExpiryTime = LocalDateTime.now().plusSeconds(1);
