@@ -1,4 +1,4 @@
-package dev.hyubuki.api;
+package dev.hyubuki.springbootconcept.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.math.BigDecimal;
