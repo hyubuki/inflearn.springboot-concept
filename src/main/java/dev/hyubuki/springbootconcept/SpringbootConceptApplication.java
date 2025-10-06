@@ -13,4 +13,3 @@ public class SpringbootConceptApplication extends SpringBootServletInitializer {
     SpringApplication.run(SpringbootConceptApplication.class, args);
   }
 }
-b
