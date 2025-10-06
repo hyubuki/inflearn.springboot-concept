@@ -1,5 +1,6 @@
 package dev.hyubuki.springbootconcept.bean;
 
+import dev.hyubuki.springbootconcept.api.ApiTemplate;
 import dev.hyubuki.springbootconcept.exrate.CachedExRateProvider;
 import dev.hyubuki.springbootconcept.exrate.WebApiExRatePaymentProvider;
 import dev.hyubuki.springbootconcept.payment.ExRateProvider;
@@ -29,7 +30,12 @@ public class PaymentConfiguration {
 
   @Bean
   public ExRateProvider exRateProvider() {
-    return new WebApiExRatePaymentProvider();
+    return new WebApiExRatePaymentProvider(apiTemplate());
 //    return new SimpleExRateProvider();
+  }
+
+  @Bean
+  public ApiTemplate apiTemplate() {
+    return new ApiTemplate();
   }
 }
