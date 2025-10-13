@@ -15,6 +15,13 @@ public class ApiTemplate {
     this.defaultExRateExtractor = new ErExRataExtractor();
   }
 
+//  ClassLoader
+  // beanを生成する時、DIを利用して注入
+  public ApiTemplate(ApiExecutor defaultApiExecutor, ExRateExtractor defaultExRateExtractor) {
+    this.defaultApiExecutor = defaultApiExecutor;
+    this.defaultExRateExtractor = defaultExRateExtractor;
+  }
+
   // デフォルトコールバック
   public BigDecimal getExRate(String url) {
     return getExRate(url, this.defaultApiExecutor, this.defaultExRateExtractor);
